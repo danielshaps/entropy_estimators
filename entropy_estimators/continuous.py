@@ -113,16 +113,6 @@ def get_mi_mvn(x, y):
         mutual information I(X, Y)
     """
 
-    d = x.shape[1]
-
-    # hx  = 0.5 * log((2 * np.pi * np.e)**d     * det(np.cov(x.T)))
-    # hy  = 0.5 * log((2 * np.pi * np.e)**d     * det(np.cov(y.T)))
-    # hxy = 0.5 * log((2 * np.pi * np.e)**(2*d) * det(np.cov(x.T, y=y.T)))
-    # mi = hx + hy - hxy
-
-    # hx  = 0.5 * log(det(2*np.pi*np.e*np.cov(x.T)))
-    # hy  = 0.5 * log(det(2*np.pi*np.e*np.cov(y.T)))
-    # hxy = 0.5 * log(det(2*np.pi*np.e*np.cov(np.c_[x,y].T)))
     hx  = get_h_mvn(x)
     hy  = get_h_mvn(y)
     hxy = get_h_mvn(np.c_[x,y])
@@ -195,7 +185,7 @@ def get_h(x, k=1, norm='max', min_dist=0., workers=1):
         smaller distances will be capped using this value
 
 	workers: int (default 1)
-		number of workers to use for parallel processing in query; 
+		number of workers to use for parallel processing in query;
 		-1 uses all CPU threads
 
     Returns:
@@ -266,7 +256,7 @@ def get_mi(x, y, k=1, normalize=None, norm='max', estimator='ksg', workers=1):
         'naive': entropies are calculated individually using the Kozachenko-Leonenko estimator implemented in get_h()
 
 	workers: int (default 1)
-		number of workers to use for parallel processing in query; 
+		number of workers to use for parallel processing in query;
 		-1 uses all CPU threads
 
     Returns:
@@ -365,7 +355,7 @@ def get_pmi(x, y, z, k=1, normalize=None, norm='max', estimator='fp', workers=1)
         'fp'   : Frenzel & Pombe estimator (effectively the KSG-estimator for mutual information)
 
 	workers: int (default 1)
-		number of workers to use for parallel processing in query; 
+		number of workers to use for parallel processing in query;
 		-1 uses all CPU threads
 
     Returns:
@@ -490,7 +480,7 @@ def get_imin(x1, x2, y, k=1, normalize=None, norm='max', workers=1):
         p-norm used when computing k-nearest neighbour distances
 
 	workers: int (default 1)
-		number of workers to use for parallel processing in query; 
+		number of workers to use for parallel processing in query;
 		-1 uses all CPU threads
 
     Returns:
@@ -539,7 +529,7 @@ def get_imin(x1, x2, y, k=1, normalize=None, norm='max', workers=1):
         # repeat for the y subspace
         nx = np.empty(n, dtype=np.int)
         ny = np.empty(n, dtype=np.int)
-        for ii in range(N):
+        for ii in range(n):
             nx[ii] = len(x_tree.query_ball_point(x_tree.data[ii], r=epsilon[ii], p=p, workers=workers)) - 1
             ny[ii] = len(y_tree.query_ball_point(y_tree.data[ii], r=epsilon[ii], p=p, workers=workers)) - 1
 
